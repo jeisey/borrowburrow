@@ -14,6 +14,7 @@ import { Epilogue } from './ui/screens/Epilogue'
 import { Festival } from './ui/screens/Festival'
 import { Title } from './ui/screens/Title'
 import { Stage } from './ui/Stage'
+import { useFocusRescue } from './ui/focus'
 import { useViewport } from './ui/viewport'
 import { Village } from './ui/village/Village'
 
@@ -66,6 +67,8 @@ export default function App() {
   const [confirmReset, setConfirmReset] = useState(false)
   const [dayCard, setDayCard] = useState<number | null>(null)
   const { orient, scale } = useViewport()
+  const appRef = useRef<HTMLDivElement>(null)
+  useFocusRescue(appRef)
   const systemReduced = usePrefersReducedMotion()
   const motion = settings.reducedMotion === 'off' ? true : settings.reducedMotion === 'on' ? false : !systemReduced
 
@@ -103,7 +106,7 @@ export default function App() {
   const backdrop = <div className={`stage-backdrop ${screen === 'house' ? 'stage-backdrop--soil' : night ? 'stage-backdrop--night' : 'stage-backdrop--sky'}`} />
 
   return (
-    <div className={motion ? 'app' : 'app motion-off'}>
+    <div ref={appRef} className={motion ? 'app' : 'app motion-off'}>
       <Stage orient={orient} scale={scale} backdrop={backdrop}>
         {screen === 'title' && (
           <Title

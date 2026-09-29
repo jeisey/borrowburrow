@@ -110,6 +110,8 @@ export interface ResidentDef {
   arrives: number
   /** Follow-up sentence for trace echoes: how this resident reaches out. Uses {other}. */
   social: string
+  /** The small mark this resident leaves beside someone else's when they reach out. */
+  signature: MarkId
   react: { yes: string[]; hmm: string[]; huh: string[] }
   /** What they say when you have nothing to lend. */
   decline: string

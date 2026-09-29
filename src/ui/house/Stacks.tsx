@@ -18,6 +18,8 @@ interface StacksProps {
   hidden: Set<ObjectId>
   onFeature: (id: ObjectId) => void
   onCard: (id: ObjectId) => void
+  /** Keyboard focus lands on the first thing that can go out when the scene changes. */
+  focusFirst?: boolean
 }
 
 function CardTab({ onClick, label }: { onClick: () => void; label: string }) {
@@ -32,8 +34,9 @@ function CardTab({ onClick, label }: { onClick: () => void; label: string }) {
 }
 
 /** The big shelf of everything the Borrowburrow owns. */
-export function Stacks({ state, canFeature, shelfFull, fresh, onCounter, hidden, onFeature, onCard }: StacksProps) {
+export function Stacks({ state, canFeature, shelfFull, fresh, onCounter, hidden, onFeature, onCard, focusFirst }: StacksProps) {
   const loans = new Map(state.loans.map((l) => [l.objectId, l]))
+  const firstFree = focusFirst ? state.collection.find((id) => !loans.has(id) && !onCounter.has(id) && !hidden.has(id)) : undefined
   const photoCount = photos(state).length
   const slots = Array.from({ length: STACK_SLOTS }, (_, i) => state.collection[i])
   return (
@@ -82,6 +85,7 @@ export function Stacks({ state, canFeature, shelfFull, fresh, onCounter, hidden,
                 onClick={() => (canFeature ? onFeature(id) : onCard(id))}
                 aria-label={label}
                 aria-disabled={canFeature && shelfFull ? true : undefined}
+                data-autofocus={id === firstFree || undefined}
               >
                 <ObjectArt id={id} marks={obj.marks} freshDay={isFresh ? obj.marks.at(-1)?.day : undefined} photos={id === 'album' ? photoCount : undefined} />
                 <span className="slot__name">{def.name}</span>

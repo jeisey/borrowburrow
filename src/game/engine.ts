@@ -503,7 +503,8 @@ function applyBinding(ctx: ResolveCtx, bnd: Binding): EchoResult {
   const isNewThread = other ? strandCount(s, b, other) === 0 : false
   let mark: MarkInstance | undefined
   if (def.mark) {
-    mark = { id: def.mark, day, by: b, note: def.markNote ? fill(def.markNote, tctx) : undefined }
+    const id = def.mark === 'signature' ? RESIDENTS[b].signature : def.mark
+    mark = { id, day, by: b, note: def.markNote ? fill(def.markNote, tctx) : undefined }
     obj.marks.push(mark)
   }
   const keepsake = keepsakeFrom(def.keepsake, loan.objectId, b, other, location, day, tctx)

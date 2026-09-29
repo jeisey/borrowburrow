@@ -75,7 +75,8 @@ export interface EchoDef {
   indoor?: boolean
   mode?: PropMode
   fx?: SceneFx
-  mark?: MarkId
+  /** 'signature' = the borrower's own little mark (see residents.ts), left beside the one they found. */
+  mark?: MarkId | 'signature'
   markNote?: string
   tags?: string[]
   flagsSet?: string[]

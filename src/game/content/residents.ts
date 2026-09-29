@@ -29,6 +29,7 @@ export const RESIDENTS: Record<ResidentId, ResidentDef> = {
       'Keeps every one of Tansy’s letters to the Moon in a drawer labelled UNDELIVERABLE (FOR NOW).',
     color: '#6f86a0',
     arrives: 1,
+    signature: 'feather',
     social:
       '{name} wrote {other} a very correct note about it, delivered it by hand, and stayed for tea by accident.',
     react: {
@@ -63,6 +64,7 @@ export const RESIDENTS: Record<ResidentId, ResidentDef> = {
     secret: 'Has kept a notebook of new recipes for eleven years. He has never baked a single one.',
     color: '#b5523b',
     arrives: 1,
+    signature: 'flourPrint',
     social: '{name} turned up at {other}’s door with a warm loaf, which is how Barnaby says “I’d like to know you better.”',
     react: {
       yes: ['Now THAT’S the stuff!', 'Oh, that’s grand. That’s properly grand.', 'Ha! You read my mind. It’s mostly bread in there, so well done.'],
@@ -95,6 +97,7 @@ export const RESIDENTS: Record<ResidentId, ResidentDef> = {
     secret: 'Keeps a list titled THINGS I AM NOT SCARED OF. The Dark is on it, crossed out, then written in again.',
     color: '#e0a93b',
     arrives: 1,
+    signature: 'moonSticker',
     social: '{name} went straight round to {other}’s to ask eleven questions about it. {other} answered nine.',
     react: {
       yes: ['YES. Yes yes yes.', 'That’s EXACTLY the thing. How did you know?', 'I’ll be so careful with it. Mostly careful.'],
@@ -127,6 +130,7 @@ export const RESIDENTS: Record<ResidentId, ResidentDef> = {
     secret: 'His late wife Hettie once named a star after him. A very dim one. She said that was the point.',
     color: '#7b8448',
     arrives: 1,
+    signature: 'knot',
     social: '{name} took the long way home, past {other}’s house — which for Tobias is a serious commitment — and knocked.',
     react: {
       yes: ['Ah. Now that’s a proper thing.', 'Oh, I remember these. Well — this one, specifically.', 'Lovely. Just lovely. I’ll bring it back before I forget I have it.'],
@@ -159,6 +163,7 @@ export const RESIDENTS: Record<ResidentId, ResidentDef> = {
     secret: 'Writes poems. About squash, mostly. There are forty of them. They rhyme.',
     color: '#5d7650',
     arrives: 1,
+    signature: 'clover',
     social: '{name} told {other} it was “not bad,” which is Margo for “marvellous,” and stayed an hour.',
     react: {
       yes: ['Good. Sensible. Thank you.', 'That’ll do. That will more than do.', 'Right. I know exactly what I’m doing with that.'],
@@ -187,6 +192,7 @@ export const RESIDENTS: Record<ResidentId, ResidentDef> = {
     secret: 'Has moved house nine times. Mosswick is the first place he has unpacked the box marked KEEP.',
     color: '#3f7a78',
     arrives: 2,
+    signature: 'doodle',
     social: '{name} knocked on {other}’s door, apologised to it, and then — bravely — knocked again.',
     react: {
       yes: ['Oh! Oh, that’s perfect. Sorry — thank you.', 'That’s — yes. Thank you. Very much. Sorry.', 'I’ll look after it like it’s a map.'],

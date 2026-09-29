@@ -2584,7 +2584,7 @@ const traces: EchoDef[] = OBJECT_IDS.map((id) => ({
   priority: 62,
   title: OBJECTS[id].trace.title,
   text: '{traceFound} {social}',
-  mark: OBJECTS[id].defaultMark,
+  mark: 'signature',
   keepsake: OBJECTS[id].traceKeepsake ?? (OBJECTS[id].keepsakeKind ? true : undefined),
   tags: ['trace'],
 }))

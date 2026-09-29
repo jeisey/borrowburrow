@@ -25,7 +25,7 @@ describe('content integrity', () => {
     for (const e of [...ECHOES, ...FESTIVAL_ECHOES]) {
       for (const o of arr(e.object)) expect(OBJECT_IDS).toContain(o)
       for (const r of e.resident ? arr(e.resident) : []) expect(RESIDENT_IDS).toContain(r)
-      if (e.mark) expect(MARKS[e.mark]).toBeDefined()
+      if (e.mark && e.mark !== 'signature') expect(MARKS[e.mark]).toBeDefined()
       if (e.location && e.location !== 'home') expect(LOCATIONS[e.location]).toBeDefined()
       if (e.other?.kind === 'resident') expect(RESIDENT_IDS).toContain(e.other.id)
     }

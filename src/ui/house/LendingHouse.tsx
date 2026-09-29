@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type Dispatch } from 'react'
+import { useEffect, useMemo, useRef, useState, type Dispatch, type Ref } from 'react'
 import { sfx } from '../../audio/sfx'
 import { noticeFor } from '../../game/content/notices'
 import { REQUESTS_BY_ID } from '../../game/content/requests'
@@ -10,6 +10,7 @@ import { ResidentArt } from '../../art/residents'
 import { deriveThreads, shelfSize } from '../../game/query'
 import type { Donation, GameState, ObjectId } from '../../game/types'
 import type { GameAction } from '../../state/useGame'
+import { usingKeyboard } from '../focus'
 import type { Orient } from '../Stage'
 import { Counter, Stamp } from './Counter'
 import { CounterDecor, Decorations } from './Decorations'
@@ -32,9 +33,25 @@ interface Props {
   onDonation: (d: Donation) => void
 }
 
-function DoorSign({ label, sub, onClick, disabled, flip }: { label: string; sub?: string; onClick?: () => void; disabled?: boolean; flip?: boolean }) {
+interface DoorSignProps {
+  label: string
+  sub?: string
+  onClick?: () => void
+  disabled?: boolean
+  flip?: boolean
+  focus?: boolean
+  buttonRef?: Ref<HTMLButtonElement>
+}
+
+function DoorSign({ label, sub, onClick, disabled, flip, focus, buttonRef }: DoorSignProps) {
   return (
-    <button className={`door-sign ${flip ? 'door-sign--flip' : ''} ${disabled ? '' : 'door-sign--live'}`} onClick={onClick} disabled={disabled}>
+    <button
+      ref={buttonRef}
+      className={`door-sign ${flip ? 'door-sign--flip' : ''} ${disabled ? '' : 'door-sign--live'}`}
+      onClick={onClick}
+      disabled={disabled}
+      data-autofocus={focus || undefined}
+    >
       <svg className="door-sign__strings" viewBox="0 0 200 60" aria-hidden="true">
         <path d="M100 4 L30 56 M100 4 L170 56" stroke="#2b211c" strokeWidth={2.4} fill="none" />
         <circle cx={100} cy={6} r={5} fill="#c9a24a" stroke="#2b211c" strokeWidth={2} />
@@ -117,6 +134,8 @@ export function LendingHouse({ state, dispatch, orient, motion, onCard, onThread
   const [stamping, setStamping] = useState(false)
   const [opened, setOpened] = useState<Set<ObjectId>>(new Set())
   const [bell, setBell] = useState(false)
+  const stampRef = useRef<HTMLButtonElement>(null)
+  const signRef = useRef<HTMLButtonElement>(null)
   const timers = useRef<number[]>([])
   const later = (ms: number, fn: () => void) => {
     timers.current.push(window.setTimeout(fn, motion ? ms : Math.min(ms, 60)))
@@ -139,6 +158,11 @@ export function LendingHouse({ state, dispatch, orient, motion, onCard, onThread
   useEffect(() => {
     if (phase === 'evening') setOpened(new Set())
   }, [phase, state.day])
+
+  // Offering by keyboard hands focus to the stamp, the natural next move.
+  useEffect(() => {
+    if (offered && usingKeyboard()) stampRef.current?.focus({ preventScroll: true })
+  }, [offered])
 
   const reaction = offered ? reactionFor(state, offered) : undefined
   const request = visit ? REQUESTS_BY_ID[visit.requestId] : undefined
@@ -201,6 +225,20 @@ export function LendingHouse({ state, dispatch, orient, motion, onCard, onThread
       : { label: 'Open', sub: `visitor ${Math.min(state.visitIndex + 1, state.visits.length)} of ${state.visits.length}` }
   else sign = { label: 'Lock up for the night', sub: 'sleep, and see who comes tomorrow', action: () => dispatch({ type: 'sleep' }) }
 
+  // Where keyboard focus goes when the scene changes under it: the day's next move.
+  const canFeatureMore = state.shelf.length < size && state.collection.length > state.shelf.length + state.loans.length
+  const stampReady = phase === 'open' && !!offered && visitorStage === 'here'
+  const focusShelf = phase === 'morning' && canFeatureMore
+  const focusCounter = (phase === 'open' && !served && !offered && state.shelf.length > 0) || (phase === 'evening' && state.report.returned.length > 0)
+  const focusDecline = phase === 'open' && !served && state.shelf.length === 0
+  const focusSign = !!sign.action && !focusShelf && !focusCounter && !stampReady
+
+  // Filling the counter by keyboard hands focus to the door sign.
+  const counterFull = phase === 'morning' && state.shelf.length > 0 && !canFeatureMore
+  useEffect(() => {
+    if (counterFull && usingKeyboard()) signRef.current?.focus({ preventScroll: true })
+  }, [counterFull])
+
   // A small handwritten note on the counter tells you what to do next.
   let hint = ''
   if (phase === 'morning') {
@@ -248,6 +286,7 @@ export function LendingHouse({ state, dispatch, orient, motion, onCard, onThread
           fresh={freshSet}
           onCounter={new Set(phase === 'evening' ? state.report.returned : state.shelf)}
           hidden={new Set(phase === 'evening' ? state.report.donations.map((d) => d.objectId).filter((id) => !opened.has(id)) : [])}
+          focusFirst={focusShelf}
           onFeature={(id) => {
             sfx.tap()
             dispatch({ type: 'feature', id })
@@ -271,6 +310,7 @@ export function LendingHouse({ state, dispatch, orient, motion, onCard, onThread
           offered={offered}
           stage={visitorStage}
           motion={motion}
+          focusDecline={focusDecline}
           onDecline={declineVisit}
         />
       )}
@@ -289,6 +329,7 @@ export function LendingHouse({ state, dispatch, orient, motion, onCard, onThread
           freshDay={phase === 'evening' ? state.day : undefined}
           parcels={phase === 'evening' ? state.report.donations : []}
           openedParcels={opened}
+          focusFirst={focusCounter}
           onItem={(id) => {
             if (phase === 'morning') {
               sfx.tap()
@@ -302,7 +343,7 @@ export function LendingHouse({ state, dispatch, orient, motion, onCard, onThread
       </div>
       <CounterDecor state={state} orient={orient} />
       <div className="house__stamp">
-        <Stamp ready={phase === 'open' && !!offered && visitorStage === 'here'} stamping={stamping} onStamp={stamp} />
+        <Stamp ready={stampReady} stamping={stamping} onStamp={stamp} buttonRef={stampRef} />
       </div>
       <div className="house__crate" aria-hidden="true">
         <svg viewBox="0 0 240 120">
@@ -323,7 +364,7 @@ export function LendingHouse({ state, dispatch, orient, motion, onCard, onThread
         <p className="house__note hand">{state.report.notes.join(' ')}</p>
       )}
       <div className="house__sign">
-        <DoorSign label={sign.label} sub={sign.sub} onClick={sign.action} disabled={!sign.action} flip={phase !== 'morning'} />
+        <DoorSign label={sign.label} sub={sign.sub} onClick={sign.action} disabled={!sign.action} flip={phase !== 'morning'} focus={focusSign} buttonRef={signRef} />
       </div>
     </div>
   )

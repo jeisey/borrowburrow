@@ -40,11 +40,13 @@ interface VisitorProps {
   offered?: ObjectId
   stage: 'arriving' | 'here' | 'leaving'
   motion: boolean
+  /** Nothing left on the counter: saying sorry is the only move. */
+  focusDecline?: boolean
   onDecline: () => void
 }
 
 /** A neighbour at the counter, saying what they're after without naming it. */
-export function Visitor({ orient, resident, request, reaction, offered, stage, motion, onDecline }: VisitorProps) {
+export function Visitor({ orient, resident, request, reaction, offered, stage, motion, focusDecline, onDecline }: VisitorProps) {
   const r = RESIDENTS[resident]
   const text = reaction ? reaction.line : request.text
   const [shown, done, skip] = useTypewriter(text, motion)
@@ -81,7 +83,7 @@ export function Visitor({ orient, resident, request, reaction, offered, stage, m
             </p>
           )}
           {!reaction && done && (
-            <button className="bubble__decline" onClick={onDecline}>
+            <button className="bubble__decline" onClick={onDecline} data-autofocus={focusDecline || undefined}>
               Sorry — nothing for you today
             </button>
           )}

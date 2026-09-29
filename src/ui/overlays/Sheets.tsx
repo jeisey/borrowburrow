@@ -152,12 +152,13 @@ export function SettingsSheet({ settings, onChange, onReset, onTitle, onClose, c
               <button className="paper-button paper-button--danger" onClick={onReset}>
                 Yes, start a new week
               </button>{' '}
-              <button className="paper-button" onClick={() => setConfirmReset(false)}>
+              <button className="paper-button" onClick={() => setConfirmReset(false)} autoFocus>
                 Keep it
               </button>
             </span>
           ) : (
-            <button className="paper-button paper-button--quiet" onClick={() => setConfirmReset(true)}>
+            // Coming back from “Keep it” puts focus back here; on opening, the sheet's own focus wins.
+            <button className="paper-button paper-button--quiet" onClick={() => setConfirmReset(true)} autoFocus>
               Reset save…
             </button>
           )}

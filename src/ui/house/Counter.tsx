@@ -1,3 +1,4 @@
+import type { Ref } from 'react'
 import { ObjectArt } from '../../art/objects'
 import { C, INK } from '../../art/palette'
 import { OBJECTS } from '../../game/content/objects'
@@ -16,6 +17,8 @@ interface CounterProps {
   onCard: (id: ObjectId) => void
   onParcel: (d: Donation) => void
   openedParcels: Set<ObjectId>
+  /** Keyboard focus lands on the first thing here when the scene changes. */
+  focusFirst?: boolean
 }
 
 function Parcel() {
@@ -33,7 +36,7 @@ function Parcel() {
 }
 
 /** The lending counter: today's things stand on it; tonight's returns come back to it. */
-export function Counter({ state, slots, items, mode, offered, freshDay, parcels, onItem, onCard, onParcel, openedParcels }: CounterProps) {
+export function Counter({ state, slots, items, mode, offered, freshDay, parcels, onItem, onCard, onParcel, openedParcels, focusFirst }: CounterProps) {
   const cells = Array.from({ length: Math.max(slots, items.length) }, (_, i) => items[i])
   const label = (id: ObjectId) => {
     const name = OBJECTS[id].name
@@ -47,7 +50,13 @@ export function Counter({ state, slots, items, mode, offered, freshDay, parcels,
         {cells.map((id, i) =>
           id ? (
             <li key={id} className={`counter__cell ${offered === id ? 'counter__cell--offered' : ''}`}>
-              <button className="counter__obj" onClick={() => onItem(id)} aria-label={label(id)} aria-pressed={mode === 'lend' ? offered === id : undefined}>
+              <button
+                className="counter__obj"
+                onClick={() => onItem(id)}
+                aria-label={label(id)}
+                aria-pressed={mode === 'lend' ? offered === id : undefined}
+                data-autofocus={(focusFirst && i === 0) || undefined}
+              >
                 <ObjectArt id={id} marks={state.objects[id]?.marks} freshDay={freshDay} />
                 <span className="counter__name">{OBJECTS[id].name}</span>
               </button>
@@ -87,9 +96,16 @@ export function Counter({ state, slots, items, mode, offered, freshDay, parcels,
 }
 
 /** The rubber stamp on its ink pad — the “lend” button, once something is offered. */
-export function Stamp({ ready, onStamp, stamping }: { ready: boolean; onStamp: () => void; stamping: boolean }) {
+export function Stamp({ ready, onStamp, stamping, buttonRef }: { ready: boolean; onStamp: () => void; stamping: boolean; buttonRef?: Ref<HTMLButtonElement> }) {
   return (
-    <button className={`stamp ${ready ? 'stamp--ready' : ''} ${stamping ? 'stamp--down' : ''}`} onClick={onStamp} disabled={!ready} aria-label="Stamp the card and lend it">
+    <button
+      ref={buttonRef}
+      className={`stamp ${ready ? 'stamp--ready' : ''} ${stamping ? 'stamp--down' : ''}`}
+      onClick={onStamp}
+      disabled={!ready}
+      aria-label="Stamp the card and lend it"
+      data-autofocus={ready || undefined}
+    >
       <svg viewBox="0 0 160 150" aria-hidden="true">
         <g filter="url(#bb-wobble)">
           <rect x={14} y={112} width={132} height={30} rx={6} fill="#3a2a2a" stroke={INK} strokeWidth={3} />

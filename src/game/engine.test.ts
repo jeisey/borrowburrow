@@ -144,6 +144,13 @@ describe('echoes and provenance', () => {
     expect(echo.cast).toEqual(['hollis', 'tansy'])
     expect(echo.text).toMatch(/Tansy’s/)
     expect(echo.text).not.toMatch(/\{\w+\}/)
+    // Hollis leaves his own little mark beside the one he followed.
+    const marks = s.objects.umbrella!.marks
+    expect(marks.map((m) => [m.by, m.id])).toEqual([
+      ['tansy', 'mudSplash'],
+      ['hollis', 'doodle'],
+    ])
+    expect(marks[0].foundBy).toEqual(['hollis'])
   })
 
   it('two loans meeting on the same clear night become one shared moment', () => {
