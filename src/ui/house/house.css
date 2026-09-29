@@ -74,7 +74,7 @@
 }
 
 /* landscape positions (1600 × 900) */
-.house--wide .house__stacks { left: 44px; top: 110px; width: 660px; height: 548px; z-index: 2; }
+.house--wide .house__stacks { left: 44px; top: 110px; width: 660px; height: 470px; z-index: 2; }
 .house--wide .house__hoop { left: 722px; top: 116px; width: 156px; height: 176px; z-index: 4; }
 .house--wide .house__notice { left: 896px; top: 118px; width: 206px; height: 160px; z-index: 4; }
 .house--wide .house__window { left: 1120px; top: 112px; width: 164px; height: 164px; z-index: 2; }
@@ -915,12 +915,13 @@
   position: absolute;
   overflow: visible;
 }
-.counter-decor--wide .deco-fern { left: 224px; top: 574px; width: 76px; height: 92px; }
-.counter-decor--wide .deco-biscuits { left: 1250px; top: 624px; width: 70px; height: 56px; }
-.counter-decor--wide .deco-sunflower { left: 1262px; top: 512px; width: 70px; height: 112px; }
-.counter-decor--tall .deco-fern { left: 36px; top: 778px; width: 60px; height: 72px; }
-.counter-decor--tall .deco-biscuits { left: 800px; top: 800px; width: 64px; height: 50px; }
-.counter-decor--tall .deco-sunflower { left: 800px; top: 690px; width: 60px; height: 100px; }
+/* Keepsakes of the week live where the counter never reaches: the windowsill and the returns crate. */
+.counter-decor--wide .deco-fern { left: 1128px; top: 196px; width: 64px; height: 78px; }
+.counter-decor--wide .deco-sunflower { left: 1334px; top: 488px; width: 66px; height: 106px; }
+.counter-decor--wide .deco-biscuits { left: 1456px; top: 546px; width: 66px; height: 52px; }
+.counter-decor--tall .deco-fern { left: 514px; top: 206px; width: 52px; height: 64px; }
+.counter-decor--tall .deco-sunflower { left: 612px; top: 184px; width: 52px; height: 86px; }
+.counter-decor--tall .deco-biscuits { left: 790px; top: 1040px; width: 64px; height: 50px; }
 
 .house__crate svg,
 .stamp svg {
