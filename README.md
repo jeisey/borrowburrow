@@ -108,7 +108,7 @@ reflowed.
 
 ## Tests
 
-`npm test` runs 35 tests: content integrity (every reference resolves and no template is left
+`npm test` runs 36 tests: content integrity (every reference resolves and no template is left
 unfilled), provenance and echo resolution (history is written, marks and keepsakes are found
 by the next borrower, joint echoes, planting and unlocks, derived threads), determinism,
 simulated whole weeks that must reach Lantern Night with no unfilled text, and saves that

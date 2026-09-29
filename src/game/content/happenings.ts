@@ -257,9 +257,10 @@ export const HAPPENINGS: HappeningDef[] = [
   },
 ]
 
-/*
- * DONATIONS — the library grows as the village does.
- * Most arrive the evening a resident makes their first Thread.
+/**
+ * DONATIONS — the library grows as the village does. Listed in the order they're delivered
+ * when several are earned at once (see processDonations): the toolbox first, then gifts that
+ * answer something that just happened, then the ones neighbours give once they've made a friend.
  */
 export const DONATIONS: DonationDef[] = [
   {
@@ -267,6 +268,25 @@ export const DONATIONS: DonationDef[] = [
     from: 'tobias',
     note: 'Heard the Borrowburrow was open again. I’ve got two of everything and only one of me. — T. Crumb',
     when: () => true,
+  },
+  {
+    objectId: 'album',
+    from: 'tobias',
+    note: 'Photographs shouldn’t live in a drawer. This was Hettie’s album. It would like to be busy again. — T.C.',
+    when: (s) => photos(s).length >= 2,
+  },
+  {
+    objectId: 'flowerPress',
+    from: 'margo',
+    note: 'For the Glasshouse violets. Press them properly or not at all. — M.',
+    when: (s) => hasFlag(s, 'glasshouse_open'),
+  },
+  {
+    objectId: 'starChart',
+    from: (s) => stargazers(s)[0] ?? 'tobias',
+    note: 'The Club’s first chart. We named some of it. Please return by the next clear night. — The Mosswick Astronomy Club',
+    when: (s) => hasFlag(s, 'club'),
+    seedKeepsakesFrom: (s) => stargazers(s).slice(0, 3),
   },
   {
     objectId: 'sewingBasket',
@@ -288,24 +308,5 @@ export const DONATIONS: DonationDef[] = [
     note: 'My uncle’s. I can’t see a thing through them — moles, you see — but somebody should. Sorry. — H.U.',
     when: (s) => s.present.includes('hollis') && partnersOf(s, 'hollis').length >= 1,
     fallbackDay: 5,
-  },
-  {
-    objectId: 'album',
-    from: 'tobias',
-    note: 'Photographs shouldn’t live in a drawer. This was Hettie’s album. It would like to be busy again. — T.C.',
-    when: (s) => photos(s).length >= 2,
-  },
-  {
-    objectId: 'flowerPress',
-    from: 'margo',
-    note: 'For the Glasshouse violets. Press them properly or not at all. — M.',
-    when: (s) => hasFlag(s, 'glasshouse_open'),
-  },
-  {
-    objectId: 'starChart',
-    from: (s) => stargazers(s)[0] ?? 'tobias',
-    note: 'The Club’s first chart. We named some of it. Please return by the next clear night. — The Mosswick Astronomy Club',
-    when: (s) => hasFlag(s, 'club'),
-    seedKeepsakesFrom: (s) => stargazers(s).slice(0, 3),
   },
 ]

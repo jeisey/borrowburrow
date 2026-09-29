@@ -95,6 +95,19 @@ describe('echoes and provenance', () => {
     expect(s.collection).toContain('toolbox')
   })
 
+  it('gifts arrive one at a time on the first evening and at most two after, none lost', () => {
+    // Barnaby's day-1 photo of Odile earns his sewing basket and her bird guide at once.
+    let s = runDay(gameWithWeather(['sunny', 'windy', 'rainy']), [['barnaby', 'barnaby_rut', 'camera']])
+    expect(strandCount(s, 'barnaby', 'odile')).toBe(1)
+    s = toEvening(s)
+    expect(s.report.donations.map((d) => d.objectId)).toEqual(['toolbox'])
+    s = sleep(s)
+    s = runDay(s, [['tansy', 'tansy_moon', 'telescope']])
+    s = toEvening(s)
+    expect(s.report.donations.map((d) => d.objectId)).toEqual(['sewingBasket', 'birdGuide'])
+    expect(s.collection).toEqual(expect.arrayContaining(['toolbox', 'sewingBasket', 'birdGuide']))
+  })
+
   it('a telescope that remembers Tansy’s stargazing brings Odile and Tansy together', () => {
     // Day 1 (clear): Tansy looks at the Moon. Day 2 (clear, windy): Odile borrows the same telescope.
     let s = runDay(gameWithWeather(['sunny', 'windy']), [['tansy', 'tansy_moon', 'telescope']])

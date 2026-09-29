@@ -80,6 +80,7 @@
   color: var(--brick);
 }
 .paper-button {
+  position: relative;
   display: inline-block;
   padding: 10px 22px 12px;
   background: #fff6de;
@@ -93,6 +94,12 @@
 .paper-button:hover {
   transform: translateY(-2px) rotate(-1deg);
   background: #fff1c8;
+}
+/* The hover lift must not pull the button out from under a resting cursor (it would flicker). */
+.paper-button::after {
+  content: '';
+  position: absolute;
+  inset: -6px -6px -12px;
 }
 .paper-button:active {
   transform: translateY(2px);

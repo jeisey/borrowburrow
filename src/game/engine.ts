@@ -791,9 +791,15 @@ function processReturns(s: GameState, all: boolean) {
   s.recentlyReturned = returned
 }
 
+/**
+ * Gifts arrive one on the first evening and at most two after that, so each parcel gets its
+ * moment. An earned gift that doesn't fit tonight waits: what earns them never un-happens.
+ */
 function processDonations(s: GameState) {
+  const cap = s.day === 1 ? 1 : 2
   let fallbacksToday = 0
   for (const d of DONATIONS) {
+    if (s.report.donations.length >= cap) break
     if (s.collection.includes(d.objectId) || s.donationsGiven.includes(d.objectId)) continue
     const earned = d.when(s)
     const fallback = !earned && d.fallbackDay !== undefined && s.day >= d.fallbackDay && fallbacksToday === 0
