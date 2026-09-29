@@ -41,6 +41,14 @@ export function shuffle<T>(rng: Rng, items: readonly T[]): T[] {
   return out
 }
 
+/** A seed from the page address (`?seed=1234`), so a week can be begun again exactly. */
+export function seedFromUrl(search: string): number | undefined {
+  const raw = new URLSearchParams(search).get('seed')?.trim() ?? ''
+  if (!/^\d+$/.test(raw)) return undefined
+  const n = Number(raw)
+  return Number.isSafeInteger(n) ? n : undefined
+}
+
 export function newSeed(): number {
   return Math.floor(Math.random() * 2 ** 31)
 }

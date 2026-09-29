@@ -4,6 +4,7 @@ import { WEATHER_TEXT, WEEKDAYS } from './game/content/world'
 import { weatherFor } from './game/engine'
 import { loadSettings, saveSettings, type Settings } from './game/persistence'
 import type { Donation, ObjectId } from './game/types'
+import { seedFromUrl } from './game/rng'
 import { useGame } from './state/useGame'
 import { LendingHouse } from './ui/house/LendingHouse'
 import { WeatherGlyph } from './ui/house/NoticeBoard'
@@ -92,7 +93,7 @@ export default function App() {
   }, [state, started])
 
   const newGame = () => {
-    dispatch({ type: 'new' })
+    dispatch({ type: 'new', seed: seedFromUrl(window.location.search) })
     setStarted(true)
     setOverlay({ kind: 'welcome' })
     setConfirmReset(false)
@@ -171,6 +172,7 @@ export default function App() {
         {overlay?.kind === 'settings' && (
           <SettingsSheet
             settings={settings}
+            seed={state?.seed}
             onChange={setSettings}
             confirmReset={confirmReset}
             setConfirmReset={setConfirmReset}

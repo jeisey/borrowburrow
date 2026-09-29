@@ -20,7 +20,7 @@ import { festivalSegments } from './content/festival'
 import { OBJECTS } from './content/objects'
 import { REQUESTS_BY_ID } from './content/requests'
 import { deriveThreads, partnersOf, photos, shelfSize, strandCount } from './query'
-import { mulberry32 } from './rng'
+import { mulberry32, seedFromUrl } from './rng'
 import { endDay, ensureObject, gameWithWeather, runDay } from './testkit'
 import type { GameState, ObjectId } from './types'
 
@@ -223,6 +223,12 @@ describe('echoes and provenance', () => {
 })
 
 describe('determinism', () => {
+  it('a week can be chosen from the page address', () => {
+    expect(seedFromUrl('?seed=48213')).toBe(48213)
+    expect(seedFromUrl('?seed=0')).toBe(0)
+    for (const bad of ['', '?seed=', '?seed=moss', '?seed=-4', '?seed=1.5']) expect(seedFromUrl(bad)).toBeUndefined()
+  })
+
   it('the same seed and the same choices produce the same week', () => {
     const play = () => {
       let s = newGame(777)

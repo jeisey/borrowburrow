@@ -116,6 +116,7 @@ export function WelcomeLetter({ onClose }: { onClose: () => void }) {
 
 interface SettingsProps {
   settings: Settings
+  seed?: number
   onChange: (s: Settings) => void
   onReset: () => void
   onTitle: () => void
@@ -124,7 +125,7 @@ interface SettingsProps {
   setConfirmReset: (v: boolean) => void
 }
 
-export function SettingsSheet({ settings, onChange, onReset, onTitle, onClose, confirmReset, setConfirmReset }: SettingsProps) {
+export function SettingsSheet({ settings, seed, onChange, onReset, onTitle, onClose, confirmReset, setConfirmReset }: SettingsProps) {
   return (
     <Overlay label="Settings" onClose={onClose} className="sheet--settings">
       <div className="settings">
@@ -164,6 +165,12 @@ export function SettingsSheet({ settings, onChange, onReset, onTitle, onClose, c
           )}
         </div>
         <p className="settings__note">Your week is saved in this browser as you play.</p>
+        {seed !== undefined && (
+          <p className="settings__note">
+            This is week no. {seed}. Add <strong>?seed={seed}</strong> to the address and start a new week to meet the same weather and
+            the same visitors again — what they do with your things is up to you.
+          </p>
+        )}
       </div>
     </Overlay>
   )
