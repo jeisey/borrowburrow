@@ -456,27 +456,21 @@
   }
 }
 .house--tall .card-tab { width: 42px; height: 42px; }
-.slot__out-tag,
-.slot__ghost {
+.slot__out-tag {
   width: 86%;
   margin-bottom: 8px;
   padding: 6px 4px;
-  background: #efe2c4;
-  border: 2px dashed rgba(43, 33, 28, 0.6);
+  background: var(--cream);
+  border: 2px solid var(--ink);
   border-radius: 3px;
+  box-shadow: 0 2px 0 rgba(43, 33, 28, 0.35);
   font-size: 0.66em;
   line-height: 1.1;
   text-align: center;
   color: var(--ink);
   transform: rotate(-3deg);
 }
-.slot__out-tag {
-  background: var(--cream);
-  border: 2px solid var(--ink);
-  box-shadow: 0 2px 0 rgba(43, 33, 28, 0.35);
-}
-.slot__out-tag .hand,
-.slot__ghost .hand {
+.slot__out-tag .hand {
   display: block;
   font-size: 1.5em;
   font-weight: 700;
