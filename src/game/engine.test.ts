@@ -309,7 +309,7 @@ describe('whole weeks', () => {
     s = endDay(s)
     s = structuredClone(s)
     s.visits = [{ residentId: 'odile', requestId: 'odile_early' }]
-    expect(morningHints(s).provenance).toMatch(/Odile.*telescope/)
+    expect(morningHints(s).provenance?.text).toMatch(/telescope.*Tansy.*Odile/)
     expect(weatherFor(s, 2)).toBe('windy')
   })
 })

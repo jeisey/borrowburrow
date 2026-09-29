@@ -1,0 +1,533 @@
+/* ————————————————————————————————— title */
+.title {
+  position: absolute;
+  inset: 0;
+  font-size: 22px;
+}
+.title--tall {
+  font-size: 30px;
+}
+.title__map {
+  position: absolute;
+  overflow: hidden;
+}
+.title--wide .title__map {
+  left: 0;
+  top: -50px;
+  width: 1600px;
+  height: 1000px;
+}
+.title--tall .title__map {
+  left: -900px;
+  top: 0;
+  width: 2560px;
+  height: 1600px;
+}
+.title__sign {
+  position: absolute;
+  z-index: 3;
+  animation: bb-swing-in 1.4s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+  transform-origin: top center;
+}
+.title--wide .title__sign {
+  left: 420px;
+  top: 26px;
+  width: 760px;
+}
+.title--tall .title__sign {
+  left: 60px;
+  top: 90px;
+  width: 780px;
+}
+@keyframes bb-swing-in {
+  0% { transform: rotate(-9deg) translateY(-60px); opacity: 0; }
+  60% { transform: rotate(3deg); opacity: 1; }
+  100% { transform: rotate(0); }
+}
+.title__strings {
+  display: block;
+  width: 100%;
+}
+.title__board {
+  margin-top: -6px;
+  padding: 26px 30px 18px;
+  text-align: center;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.07) 0 3px, transparent 3px 24px),
+    linear-gradient(#b8804f, #93603a);
+  border: 5px solid var(--ink);
+  border-radius: 14px 18px 16px 12px;
+  box-shadow:
+    0 10px 0 rgba(43, 33, 28, 0.5),
+    0 30px 50px rgba(0, 0, 0, 0.35);
+}
+.title__word {
+  margin: 0;
+  white-space: nowrap;
+  font-size: 4em;
+  line-height: 1;
+  font-weight: 900;
+  color: #fff3d6;
+  letter-spacing: -0.01em;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 144;
+  text-shadow:
+    0 4px 0 #2b211c,
+    0 7px 0 rgba(43, 33, 28, 0.35);
+}
+.title--tall .title__word {
+  font-size: 3.3em;
+}
+.title__word span {
+  display: inline-block;
+}
+.title__sub {
+  margin: 4px 0 0;
+  font-size: 2em;
+  color: #ffe7b3;
+  text-shadow: 0 2px 0 rgba(43, 33, 28, 0.6);
+}
+.title__menu {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.title--wide .title__menu {
+  left: 540px;
+  top: 400px;
+  width: 520px;
+}
+.title--tall .title__menu {
+  left: 120px;
+  top: 600px;
+  width: 660px;
+}
+.tag-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 300px;
+  padding: 12px 36px 14px 52px;
+  background: #fff6de;
+  border: 3px solid var(--ink);
+  border-radius: 6px 20px 20px 6px;
+  box-shadow: 0 5px 0 rgba(43, 33, 28, 0.45);
+  font-weight: 800;
+  font-size: 1.08em;
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s ease;
+}
+.tag-button::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  border-radius: 50%;
+  border: 3px solid var(--ink);
+  background: var(--paper-deep);
+}
+.tag-button small {
+  font-weight: 500;
+  font-size: 1.25em;
+  color: var(--teal);
+}
+.tag-button:hover,
+.tag-button:focus-visible {
+  transform: rotate(1deg) scale(1.04);
+}
+.tag-button--main {
+  background: #fff1c8;
+  font-size: 1.3em;
+}
+.title__blurb {
+  margin: 12px 0 0;
+  padding: 10px 18px;
+  text-align: center;
+  line-height: 1.35;
+  color: #fff6de;
+  background: rgba(43, 33, 28, 0.55);
+  border-radius: 6px;
+}
+.title__hollis {
+  position: absolute;
+  width: 110px;
+  height: 165px;
+  z-index: 2;
+  animation: bb-peek 6s ease-in-out 1.5s infinite;
+}
+.title--wide .title__hollis {
+  right: 290px;
+  bottom: 118px;
+}
+.title--tall .title__hollis {
+  right: 80px;
+  bottom: 130px;
+}
+.title__hollis .resident {
+  width: 100%;
+  height: 100%;
+}
+@keyframes bb-peek {
+  0%, 100% { transform: translateX(0); }
+  40%, 60% { transform: translateX(-26px); }
+}
+
+/* ————————————————————————————————— day card */
+.daycard {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(36, 24, 18, 0.45);
+  animation: bb-daycard 2.6s ease both;
+  pointer-events: auto;
+  font-size: 22px;
+}
+.stage--tall .daycard {
+  font-size: 30px;
+}
+@keyframes bb-daycard {
+  0% { opacity: 0; }
+  12%, 80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.daycard__paper {
+  background: #fbf3dc;
+  border: 4px solid var(--ink);
+  padding: 22px 50px 18px;
+  text-align: center;
+  transform: rotate(-2deg);
+  box-shadow: 0 8px 0 rgba(43, 33, 28, 0.45);
+}
+.daycard__paper strong {
+  display: block;
+  font-size: 2.6em;
+  font-weight: 900;
+  line-height: 1;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+}
+.daycard__paper .hand {
+  display: block;
+  font-size: 1.6em;
+  color: var(--teal);
+}
+.daycard .weather-glyph {
+  width: 64px;
+  height: 64px;
+}
+
+/* ————————————————————————————————— meta controls (sound, drawer) */
+.meta {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  z-index: 40;
+  display: flex;
+  gap: 10px;
+}
+.meta button {
+  width: 52px;
+  height: 52px;
+  padding: 9px;
+  background: #b07a4f;
+  color: #fff3d6;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  box-shadow: 0 3px 0 rgba(43, 33, 28, 0.5);
+  transition: transform 0.15s;
+}
+.stage--tall .meta button {
+  width: 70px;
+  height: 70px;
+  padding: 12px;
+}
+.meta button:hover {
+  transform: rotate(-8deg) scale(1.06);
+}
+.meta svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ————————————————————————————————— festival */
+.festival,
+.epilogue {
+  position: absolute;
+  inset: 0;
+  font-size: 22px;
+}
+.festival--tall,
+.epilogue--tall {
+  font-size: 30px;
+}
+.festival__map,
+.epilogue__map {
+  position: absolute;
+  overflow: hidden;
+}
+.festival--wide .festival__map {
+  left: -540px;
+  top: -300px;
+  width: 1920px;
+  height: 1200px;
+}
+.festival--tall .festival__map {
+  left: -640px;
+  top: -440px;
+  width: 2080px;
+  height: 1300px;
+}
+.festival__map .village-map,
+.epilogue__map .village-map {
+  width: 100%;
+  height: 100%;
+}
+.yarn--glow {
+  filter: drop-shadow(0 0 4px rgba(255, 220, 140, 0.9));
+  stroke-dasharray: 400;
+  animation: bb-yarn-long 3s ease-out both;
+}
+@keyframes bb-yarn-long {
+  from { stroke-dashoffset: 400; }
+  to { stroke-dashoffset: 0; }
+}
+.festival__scroll {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  background: #fbf3dc;
+  border: 4px solid var(--ink);
+  border-radius: 10px 14px 12px 10px;
+  padding: 20px 26px;
+  box-shadow: 0 8px 0 rgba(43, 33, 28, 0.45);
+  scrollbar-width: thin;
+}
+.festival--wide .festival__scroll {
+  right: 30px;
+  top: 78px;
+  bottom: 24px;
+  width: 620px;
+}
+.festival--tall .festival__scroll {
+  left: 22px;
+  right: 22px;
+  top: 760px;
+  bottom: 22px;
+}
+.festival__kicker {
+  margin: 0;
+  color: var(--brick);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.66em;
+}
+.festival__scroll h2 {
+  margin: 0 0 12px;
+  font-size: 1.7em;
+  line-height: 1.02;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+}
+.festival__segs {
+  list-style: none;
+  margin: 0;
+  padding: 0 6px 0 0;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.festival__seg {
+  padding: 10px 0 12px;
+  border-bottom: 2px dashed rgba(43, 33, 28, 0.25);
+  animation: bb-result 0.6s ease both;
+}
+.festival__seg h3 {
+  margin: 0 0 4px;
+  color: var(--teal);
+  font-size: 1.05em;
+}
+.festival__seg p {
+  margin: 0;
+  line-height: 1.4;
+}
+.festival__seg small {
+  font-size: 1.2em;
+  color: var(--ink-soft);
+}
+.festival__objs {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+.festival__obj {
+  width: 64px;
+  height: 64px;
+}
+.festival__obj .obj {
+  width: 100%;
+  height: 100%;
+}
+.festival__actions {
+  flex: none;
+  border-top: 2px dashed rgba(43, 33, 28, 0.25);
+  padding-top: 12px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.festival__last {
+  font-size: 1.6em;
+  color: var(--brick);
+  margin: 0;
+}
+
+/* ————————————————————————————————— epilogue */
+.epilogue--wide .epilogue__map {
+  left: 0;
+  top: -50px;
+  width: 1600px;
+  height: 1000px;
+}
+.epilogue--tall .epilogue__map {
+  left: -900px;
+  top: 0;
+  width: 2560px;
+  height: 1600px;
+}
+.journal {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 41px, rgba(79, 138, 139, 0.16) 41px 43px),
+    #fbf3dc;
+  border: 4px solid var(--ink);
+  border-radius: 10px 14px 12px 10px;
+  padding: 26px 34px;
+  box-shadow:
+    0 8px 0 rgba(43, 33, 28, 0.45),
+    0 30px 60px rgba(0, 0, 0, 0.4);
+  scrollbar-width: thin;
+}
+.epilogue--wide .journal {
+  left: 150px;
+  right: 150px;
+  top: 76px;
+  bottom: 24px;
+}
+.epilogue--tall .journal {
+  left: 22px;
+  right: 22px;
+  top: 80px;
+  bottom: 22px;
+}
+.journal__kicker {
+  margin: 0;
+  color: var(--brick);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.66em;
+}
+.journal h2 {
+  margin: 0 0 10px;
+  font-size: 2em;
+  line-height: 1.02;
+  font-variation-settings: 'SOFT' 100, 'WONK' 1;
+}
+.journal h3 {
+  margin: 14px 0 8px;
+  color: var(--brick);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9em;
+}
+.journal__cols {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+.epilogue--tall .journal__cols {
+  grid-template-columns: 1fr;
+}
+.journal__line {
+  font-size: 1.55em;
+  line-height: 1.1;
+  margin: 0 0 12px;
+  color: var(--navy);
+}
+.journal__threads {
+  width: 320px;
+  height: 320px;
+  justify-self: center;
+}
+.journal__shelf {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.journal__shelf button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 118px;
+}
+.epilogue--tall .journal__shelf button {
+  width: 180px;
+}
+.journal__shelf .obj {
+  width: 96px;
+  height: 96px;
+  transition: transform 0.2s;
+}
+.epilogue--tall .journal__shelf .obj {
+  width: 150px;
+  height: 150px;
+}
+.journal__shelf button:hover .obj {
+  transform: translateY(-6px) rotate(-3deg);
+}
+.journal__shelf small {
+  font-size: 0.66em;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.journal__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+}
+.journal__actions {
+  flex: none;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px dashed rgba(43, 33, 28, 0.25);
+}
+.journal__note {
+  font-size: 0.8em;
+  color: var(--ink-soft);
+}

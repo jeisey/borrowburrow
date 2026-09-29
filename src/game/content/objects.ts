@@ -118,7 +118,7 @@ export const OBJECTS: Record<ObjectId, ObjectDef> = {
   },
   kite: {
     id: 'kite',
-    name: 'Box Kite',
+    name: 'Red Diamond Kite',
     short: 'kite',
     catalogue: '006',
     blurb: 'Red and saffron, with a tail of knotted bows. Pulls like a dog on a walk.',

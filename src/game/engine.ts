@@ -865,8 +865,17 @@ export function sleep(state: GameState): GameState {
  * Overheard gossip for the notice board: what today's visitors have been up to,
  * plus — when an object's history could bring two people together — a nudge.
  */
-export function morningHints(s: GameState): { overheard: string[]; provenance?: string } {
-  const overheard = s.visits.map((v) => REQUESTS_BY_ID[v.requestId]?.hint).filter(Boolean).slice(0, 3)
+export interface Hint {
+  who: ResidentId
+  text: string
+  objectId?: ObjectId
+}
+
+export function morningHints(s: GameState): { overheard: Hint[]; provenance?: Hint } {
+  const overheard = s.visits
+    .map((v) => ({ who: v.residentId, text: REQUESTS_BY_ID[v.requestId]?.hint ?? '' }))
+    .filter((h) => h.text)
+    .slice(0, 3)
   if (isFestivalDay(s)) return { overheard }
   const ctx: ResolveCtx = {
     s,
@@ -883,9 +892,19 @@ export function morningHints(s: GameState): { overheard: string[]; provenance?: 
       const best = candidatesFor(ctx, loan)[0]
       if (!best?.other || best.priority < 67) continue
       if (!best.trace && best.def.other?.kind !== 'prev') continue
+      const prev = RESIDENTS[best.other].short
+      const thing = best.trace?.keepsake
+        ? `something of ${prev}’s tucked inside`
+        : best.trace?.mark
+          ? `${prev}’s ${markLabel(best.trace.mark)} on it`
+          : `a memory of ${prev} in it`
       return {
-        overheard,
-        provenance: `${RESIDENTS[v.residentId].short} has been wondering what became of the ${OBJECTS[objectId].short}.`,
+        overheard: overheard.slice(0, 2),
+        provenance: {
+          who: v.residentId,
+          objectId,
+          text: `The ${OBJECTS[objectId].short} still has ${thing} — and ${RESIDENTS[v.residentId].short} is coming in today.`,
+        },
       }
     }
   }
